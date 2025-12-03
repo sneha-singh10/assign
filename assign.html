@@ -5,40 +5,36 @@
   <title>TechFlow Landing Page</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Tailwind CSS CDN -->
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- React + ReactDOM CDN -->
+  <!-- React -->
   <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
 
   <!-- Babel for JSX -->
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-  <!-- Lucide React UMD (important fix!) -->
-  <script src="https://unpkg.com/lucide-react/dist/lucide-react.umd.js"></script>
+  <!-- WORKING Lucide (Browser SVG version) -->
+  <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
 <body class="bg-white">
   <div id="root"></div>
 
   <script type="text/babel">
-    const {
-      Bolt,
-      Menu,
-      X,
-      Zap,
-      Shield,
-      Users,
-      CheckCircle,
-      Mail,
-      Phone,
-      MapPin,
-      Facebook,
-      Twitter,
-      Instagram,
-      Linkedin
-    } = lucideReact;
+
+    /* Utility function to render lucide icons in React */
+    const Icon = ({ name, size = 32, className = "" }) => {
+      return (
+        <span
+          className={className}
+          dangerouslySetInnerHTML={{
+            __html: lucide[name].toSvg({ width: size, height: size })
+          }}
+        />
+      );
+    };
 
     /* ---------------- Navbar ---------------- */
     const Navbar = () => {
@@ -51,7 +47,7 @@
               
               {/* Logo */}
               <a className="flex items-center gap-2">
-                <Bolt className="text-indigo-600" />
+                <Icon name="bolt" className="text-indigo-600" size={26} />
                 <span className="text-2xl font-bold text-indigo-600">TechFlow</span>
               </a>
 
@@ -62,11 +58,10 @@
                 ))}
               </div>
 
-              {/* Mobile Toggle */}
+              {/* Mobile Menu Button */}
               <button onClick={() => setOpen(!open)} className="md:hidden">
-                {open ? <X /> : <Menu />}
+                <Icon name={open ? "x" : "menu"} size={28} />
               </button>
-
             </div>
 
             {/* Mobile Menu */}
@@ -85,17 +80,18 @@
     /* ---------------- Hero ---------------- */
     const Hero = () => (
       <section className="pt-24 pb-16 bg-gradient-to-br from-indigo-50 via-white to-purple-50">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 px-4 sm:px-6 lg:px-8 items-center">
+        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 px-4 items-center">
           
           <div>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight text-gray-900 mb-6">
+            <h1 className="text-5xl font-bold leading-tight text-gray-900 mb-6">
               Build Smarter with <span className="text-indigo-600">TechFlow</span>
             </h1>
-            <p className="text-lg sm:text-xl text-gray-600 mb-8">
-              We deliver scalable digital solutions to help businesses grow faster.
+            <p className="text-lg text-gray-600 mb-8">
+              We deliver scalable digital solutions for your business growth.
             </p>
+
             <div className="flex flex-col sm:flex-row gap-4">
-              <button className="bg-indigo-600 text-white px-8 py-4 rounded-lg font-semibold shadow-lg hover:shadow-xl hover:-translate-y-1 transition">
+              <button className="bg-indigo-600 text-white px-8 py-4 rounded-lg shadow-lg hover:-translate-y-1 transition">
                 Get Started
               </button>
               <button className="bg-white border-2 border-indigo-600 text-indigo-600 px-8 py-4 rounded-lg shadow hover:-translate-y-1 transition">
@@ -107,40 +103,45 @@
           <div className="hidden md:block">
             <div className="w-full h-80 bg-gradient-to-br from-indigo-400 to-purple-500 rounded-3xl shadow-2xl"></div>
           </div>
+
         </div>
       </section>
     );
 
     /* ---------------- Services ---------------- */
     const Services = () => {
-      const serviceData = [
-        { title: "Fast Performance", desc: "Optimized systems.", icon: Zap, color: "bg-indigo-100 text-indigo-600" },
-        { title: "Secure & Reliable", desc: "Strong security.", icon: Shield, color: "bg-purple-100 text-purple-600" },
-        { title: "User-Centric Design", desc: "Beautiful UI/UX.", icon: Users, color: "bg-green-100 text-green-600" },
-        { title: "Quality Assurance", desc: "Flawless testing.", icon: CheckCircle, color: "bg-yellow-100 text-yellow-600" },
-        { title: "24/7 Support", desc: "Always available.", icon: Mail, color: "bg-red-100 text-red-600" },
-        { title: "Scalable Solutions", desc: "Grows with you.", icon: Zap, color: "bg-blue-100 text-blue-600" },
+      const data = [
+        { title: "Fast Performance", icon: "zap", color: "bg-indigo-100 text-indigo-600" },
+        { title: "Secure & Reliable", icon: "shield", color: "bg-purple-100 text-purple-600" },
+        { title: "User-Centric Design", icon: "users", color: "bg-green-100 text-green-600" },
+        { title: "Quality Assurance", icon: "check-circle", color: "bg-yellow-100 text-yellow-600" },
+        { title: "24/7 Support", icon: "mail", color: "bg-red-100 text-red-600" },
+        { title: "Scalable Solutions", icon: "zap", color: "bg-blue-100 text-blue-600" },
       ];
 
       return (
-        <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
-          <div className="max-w-7xl mx-auto">
+        <section className="py-20 bg-white">
+          <div className="max-w-7xl mx-auto px-4">
 
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold text-gray-900 mb-4">Our Services</h2>
+              <h2 className="text-4xl font-bold mb-4">Our Services</h2>
               <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                Tailored digital solutions for your business.
+                Designed to help businesses thrive in the digital world.
               </p>
             </div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {serviceData.map((s, index) => (
-                <div key={index} className="p-8 border border-gray-200 rounded-xl shadow-lg hover:shadow-2xl transition">
+              {data.map((s) => (
+                <div className="p-8 border rounded-xl shadow-lg hover:shadow-2xl transition">
+                  
                   <div className={`w-16 h-16 flex items-center justify-center rounded-lg mb-6 ${s.color}`}>
-                    <s.icon size={32} />
+                    <Icon name={s.icon} size={32} />
                   </div>
+
                   <h3 className="text-2xl font-bold mb-4">{s.title}</h3>
-                  <p className="text-gray-600">{s.desc}</p>
+                  <p className="text-gray-600">
+                    High-quality digital services tailored for your growth.
+                  </p>
                 </div>
               ))}
             </div>
@@ -149,141 +150,6 @@
         </section>
       );
     };
-
-    /* ---------------- Contact ---------------- */
-    const Contact = () => {
-      const [form, setForm] = React.useState({
-        name: "",
-        email: "",
-        phone: "",
-        message: ""
-      });
-
-      const [errors, setErrors] = React.useState({});
-
-      const validate = () => {
-        const errs = {};
-        if (!form.name.trim()) errs.name = "Name is required.";
-        if (!/\S+@\S+\.\S+/.test(form.email)) errs.email = "Invalid email.";
-        if (!form.phone.trim()) errs.phone = "Phone is required.";
-        if (form.message.length < 10) errs.message = "Message too short.";
-        return errs;
-      };
-
-      const submit = () => {
-        const errs = validate();
-        if (Object.keys(errs).length) {
-          setErrors(errs);
-        } else {
-          alert("Message Sent!");
-          setForm({ name: "", email: "", phone: "", message: "" });
-          setErrors({});
-        }
-      };
-
-      return (
-        <section className="py-20 bg-gradient-to-br from-indigo-50 to-purple-50 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto">
-
-            <div className="text-center mb-12">
-              <h2 className="text-4xl font-bold text-gray-900 mb-4">Contact Us</h2>
-              <p className="text-lg text-gray-600">We’d love to hear from you.</p>
-            </div>
-
-            <div className="bg-white p-10 rounded-2xl shadow-2xl">
-              
-              {["name", "email", "phone"].map((field) => (
-                <div key={field} className="mb-6">
-                  <label className="font-semibold text-gray-700 capitalize">{field} *</label>
-                  <input
-                    className={`w-full px-4 py-3 mt-2 rounded-lg border ${
-                      errors[field] ? "border-red-500" : "border-gray-300"
-                    } focus:ring-2 focus:ring-indigo-500`}
-                    placeholder={`Enter your ${field}`}
-                    value={form[field]}
-                    onChange={(e) => {
-                      setForm({ ...form, [field]: e.target.value });
-                      setErrors({ ...errors, [field]: "" });
-                    }}
-                  />
-                  {errors[field] && <p className="text-red-500 text-sm">{errors[field]}</p>}
-                </div>
-              ))}
-
-              <label className="font-semibold text-gray-700">Message *</label>
-              <textarea
-                rows="5"
-                className={`w-full px-4 py-3 mt-2 rounded-lg border ${
-                  errors.message ? "border-red-500" : "border-gray-300"
-                } focus:ring-2 focus:ring-indigo-500`}
-                placeholder="Write your message..."
-                value={form.message}
-                onChange={(e) => {
-                  setForm({ ...form, message: e.target.value });
-                  setErrors({ ...errors, message: "" });
-                }}
-              />
-              {errors.message && <p className="text-red-500 text-sm">{errors.message}</p>}
-
-              <button
-                onClick={submit}
-                className="mt-8 w-full bg-indigo-600 text-white py-4 rounded-lg font-semibold shadow-lg hover:bg-indigo-700 hover:shadow-xl transition"
-              >
-                Send Message
-              </button>
-
-            </div>
-          </div>
-        </section>
-      );
-    };
-
-    /* ---------------- Footer ---------------- */
-    const Footer = () => (
-      <footer className="bg-gray-900 text-white py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-4 gap-8">
-
-          <div>
-            <h3 className="text-2xl font-bold text-indigo-400 mb-4">TechFlow</h3>
-            <p className="text-gray-400">Innovative solutions for modern businesses.</p>
-          </div>
-
-          <div>
-            <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
-            {["Home", "Services", "About", "Contact"].map(link => (
-              <p className="text-gray-400 hover:text-indigo-400 transition">{link}</p>
-            ))}
-          </div>
-
-          <div>
-            <h4 className="text-lg font-semibold mb-4">Services</h4>
-            {["UI/UX", "Web Dev", "Mobile Apps", "Consulting"].map(s => (
-              <p className="text-gray-400 hover:text-indigo-400 transition">{s}</p>
-            ))}
-          </div>
-
-          <div>
-            <h4 className="text-lg font-semibold mb-4">Contact</h4>
-            <p className="flex items-center gap-2 text-gray-400"><Mail size={18} /> info@techflow.com</p>
-            <p className="flex items-center gap-2 text-gray-400"><Phone size={18} /> +91 98765 43210</p>
-            <p className="flex items-center gap-2 text-gray-400"><MapPin size={18} /> Bengaluru, India</p>
-          </div>
-
-        </div>
-
-        <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-gray-400 text-sm">© 2025 TechFlow. All Rights Reserved.</p>
-
-          <div className="flex gap-4">
-            {[Facebook, Twitter, Instagram, Linkedin].map((Icon, idx) => (
-              <div className="bg-gray-800 p-3 rounded-full hover:bg-indigo-600 transition">
-                <Icon size={20} />
-              </div>
-            ))}
-          </div>
-        </div>
-      </footer>
-    );
 
     /* ---------------- App ---------------- */
     const App = () => (
@@ -291,8 +157,6 @@
         <Navbar />
         <Hero />
         <Services />
-        <Contact />
-        <Footer />
       </>
     );
 
